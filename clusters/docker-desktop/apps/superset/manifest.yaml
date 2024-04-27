@@ -4,7 +4,7 @@ metadata:
   name: superset
   namespace: default
 spec:
-  interval: 10m
+  interval: 5m
   url: https://apache.github.io/superset
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
@@ -17,11 +17,9 @@ spec:
   chart:
     spec:
       chart: superset/superset
-      version: '>0.12.0'
       sourceRef:
         kind: HelmRepository
         name: superset
-        namespace: default
       interval: 1m
   values:
     extraEnvRaw:
