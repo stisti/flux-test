@@ -1,0 +1,39 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: superset
+  namespace: default
+spec:
+  interval: 10m
+  url: https://apache.github.io/superset
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: superset
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: superset/superset
+      version: '>0.12.0'
+      sourceRef:
+        kind: HelmRepository
+        name: superset
+        namespace: default
+      interval: 1m
+  values:
+    extraEnvRaw:
+      - name: DB_PASS
+        valueFrom:
+          secretKeyRef:
+            name: superset-secrets
+            key: postgres-password
+    postgresql:
+      auth:
+        existingSecret: superset-secrets
+    bootstrapScript: |
+      #!/bin/bash
+      pip install sqlalchemy-bigquery==0.8.14 redshift_connector
+      if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
