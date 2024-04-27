@@ -33,5 +33,4 @@ spec:
         existingSecret: superset-secrets
     bootstrapScript: |
       #!/bin/bash
-      pip install sqlalchemy-bigquery==0.8.14 redshift_connector
       if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
