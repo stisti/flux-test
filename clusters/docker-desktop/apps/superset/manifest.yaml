@@ -16,7 +16,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: superset/superset
+      chart: superset
       sourceRef:
         kind: HelmRepository
         name: superset
