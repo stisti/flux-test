@@ -34,3 +34,6 @@ spec:
     bootstrapScript: |
       #!/bin/bash
       if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
+    configOverrides:
+      secret: |
+        SECRET_KEY = 'This is a very secret string'
